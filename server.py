@@ -13,8 +13,8 @@ requests_queue = Queue()
 BATCH_SIZE = 1
 CHECK_INTERVAL = 0.1
 
-tokenizer = AutoTokenizer.from_pretrained("gpt2-large")
-model = AutoModelWithLMHead.from_pretrained("gpt2-large", return_dict=True)
+tokenizer = AutoTokenizer.from_pretrained("gpt2")
+model = AutoModelWithLMHead.from_pretrained("gpt2", return_dict=True)
 
 
 # Queue 핸들링
@@ -52,7 +52,7 @@ def run(sequence):
     return result
 
 
-@app.route("/gpt2-word", methods=['POST'])
+@app.route("/gpt2-word", methods=['GET'])
 def gpt2():
     # 큐에 쌓여있을 경우,
     if requests_queue.qsize() > BATCH_SIZE:
@@ -60,7 +60,8 @@ def gpt2():
 
     # 웹페이지로부터 이미지와 스타일 정보를 얻어옴.
     try:
-        text = request.form['text']
+        text = request.args['text']
+        print(text)
 
     except Exception:
         print("Empty Text")
