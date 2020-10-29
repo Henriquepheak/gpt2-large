@@ -1,6 +1,6 @@
 from transformers import AutoModelWithLMHead, AutoTokenizer, top_k_top_p_filtering
 import torch
-from flask import Flask, request, Response, jsonify
+from flask import Flask, request, Response
 from torch.nn import functional as F
 from queue import Queue, Empty
 import time
@@ -28,14 +28,14 @@ def handle_requests_by_batch():
                 continue
 
             for requests in requests_batch:
-                requests['output'] = run(requests['input'][0], request['input'][1])
+                requests['output'] = run(requests['input'][0], requests['input'][1])
 
 
 # 쓰레드
 threading.Thread(target=handle_requests_by_batch).start()
 
 
-# Sketch Start
+# Running GPT-2
 def run(sequence, num_samples):
     input_ids = tokenizer.encode(sequence, return_tensors="pt")
     # get logits of last hidden state
