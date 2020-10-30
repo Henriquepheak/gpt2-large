@@ -1,1 +1,1 @@
-# gpt2-word
+# gpt2-large
