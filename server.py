@@ -15,7 +15,7 @@ CHECK_INTERVAL = 0.1
 
 tokenizer = AutoTokenizer.from_pretrained("gpt2-large")
 model = AutoModelWithLMHead.from_pretrained("gpt2-large", return_dict=True)
-
+model.to('cuda')
 
 # Queue 핸들링
 def handle_requests_by_batch():
@@ -38,8 +38,10 @@ threading.Thread(target=handle_requests_by_batch).start()
 # Running GPT-2
 def run(sequence, num_samples):
     input_ids = tokenizer.encode(sequence, return_tensors="pt")
+    tokens_tensor = input_ids.to('cuda')
+    
     # get logits of last hidden state
-    next_token_logits = model(input_ids).logits[:, -1, :]
+    next_token_logits = model(tokens_tensor).logits[:, -1, :]
     # filter
     filtered_next_token_logits = top_k_top_p_filtering(next_token_logits, top_k=50, top_p=1.0)
     # sample
