@@ -1,0 +1,84 @@
+openapi: 3.0.1
+
+info:
+  title: ainize-gpt2-large
+  description: |
+      This is the basic model in GPT-2.
+
+      generate senctence based gpt2-large model
+  contact:
+    name: Ainizer - Jeong Hyunsu
+  version: "2.0"
+  license:
+    name: Apache License 2.0
+    url: https://github.com/huggingface/transformers/blob/master/LICENSE
+
+servers:
+  - url: https://main-gpt2-large-jeong-hyun-su.endpoint.ainize.ai
+
+paths:
+  /gpt2-large/short:
+    post:
+      requestBody:
+        required: true
+        description: |
+          Specify a length of the text and set the start prompt for the text to be generated.
+          The length must can be parse to integer
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                num_samples:
+                  type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+
+        '429':
+          description: Busy to server, please retry again.
+
+        '500':
+          description: Server side error
+
+  /gpt2-large/long:
+    post:
+      requestBody:
+        required: true
+        description: |
+          Specify a length of the text and set the start prompt for the text to be generated.
+          The length must can be parse to integer
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                num_samples:
+                  type: string
+                length:
+                  type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+
+        '429':
+          description: Busy to server, please retry again.
+
+        '500':
+          description: Server side error
