@@ -128,7 +128,7 @@ def gpt2_word(type):
     while 'output' not in req:
         time.sleep(CHECK_INTERVAL)
 
-    return req['output']
+    return jsonify(req['output'])
 
 
 # Health Check
